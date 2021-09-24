@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -15,10 +16,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $users=User::all();
+        if($request->has('search')){
+            $users=User::where('username','like',"%{$request->search}%")->orwhere('email','like',"%{$request->search}%")->get();
+        }
         return view('users.index',compact('users'));
     }
 
@@ -53,17 +57,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -74,7 +67,6 @@ class UserController extends Controller
         //
         return view('users.edit',compact('user'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -82,9 +74,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
         //
+        $user->update([
+            'username' => $request->username,
+            'first_name' => $request->firstname,
+            'last_name' => $request->lastname,
+            'email' => $request->email,
+        ]);
+        return redirect()->route('users.index')->with('message','User Updated Successfully');
     }
 
     /**
@@ -93,8 +92,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
         //
+        if(auth()->user()->id==$user->id){
+            return redirect()->route('users.index')->with('message','You are deleting yourself');
+        }
+        $user->delete();
+        return redirect()->route('users.index')->with('message','Users Deleted Successfully');
+
     }
 }
