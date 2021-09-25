@@ -9,5 +9,9 @@ class Country extends Model
 {
     use HasFactory;
     protected $fillable=['country_code','name'];
+    // When we added P.K relation then below function is used another function we have to made in parent class.
+    public function states(){
+        return $this->hasMany(State::class);
+    }
     
 }
