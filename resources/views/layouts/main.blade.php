@@ -40,10 +40,9 @@
             <hr class="sidebar-divider">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/employees">
                     <span>Employee Management</span></a>
             </li>
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -55,7 +54,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{route('countries.index')}}">Country</a>
                         <a class="collapse-item" href="{{route('states.index')}}">State</a>
-                        <a class="collapse-item" href="cards.html">Department</a>
+                        <a class="collapse-item" href="{{route('departments.index')}}">Department</a>
                         <a class="collapse-item" href="{{route('cities.index')}}">City</a>
                     </div>
                 </div>

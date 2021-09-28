@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CityStoreRequest;
-use App\Models\City;
-use App\Models\State;
+use App\Http\Requests\DepartmentStoreRequest;
 use Illuminate\Http\Request;
+use App\Models\Department;
 
-class CityController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,11 @@ class CityController extends Controller
      */
     public function index(Request $request)
     {
-        $cities=City::all();
+        $departments=Department::all();
         if($request->has('search')){
-            $cities=City::where('name','like',"%{$request->search}%")->get();
+            $departments=Department::where('name','Like',"%{$request->search}%")->get();
         }
-        return view('cities.index',compact('cities'));
+        return view('departments.index',compact('departments'));
     }
     /**
      * Show the form for creating a new resource.
@@ -30,19 +29,19 @@ class CityController extends Controller
      */
     public function create()
     {
-        $states=State::all();
-        return view('cities.create',compact('states'));
+        return view('departments.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CityStoreRequest $request)
+    public function store(DepartmentStoreRequest $request)
     {
-        City::create($request->validated());
-        return redirect()->route('cities.index')->with('message','City Created Successfully');   
+        Department::create($request->validated());
+        return redirect()->route('departments.index')->with('message','Department Created Successfully');
     }
     /**
      * Show the form for editing the specified resource.
@@ -50,11 +49,11 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(City $city)
+    public function edit(Department $department)
     {
-        $states=State::all();
-        return view('cities.edit',compact('city','states'));
+        return view('departments.edit',compact('department'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -62,24 +61,22 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CityStoreRequest $request, City $city)
+    public function update(DepartmentStoreRequest $request, Department $department)
     {
-        $city->update([
-            'state_id'=> $request->state_id,
+        $department->update([
             'name'=>$request->name
         ]);
-        return redirect()->route('cities.index')->with('message','City Updated Successfully');
+        return redirect()->route('departments.index')->with('message','Department Updated Successfully');
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city)
+    public function destroy(Department $department)
     {
-        $city->delete();
-        return redirect()->route('cities.index')->with('message','City Deleted Successfully');
+        $department->delete();
+        return redirect()->route('departments.index')->with('message','Department Deleted Successfully');
     }
 }
