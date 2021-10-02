@@ -23,4 +23,7 @@ Route::get('/employees/countries',[EmployeeDataController::class,'countries']);
 Route::get('/employees/{country}/states',[EmployeeDataController::class,'states']);
 Route::get('/employees/departments',[EmployeeDataController::class,'departments']);
 Route::get('/employees/{state}/cities',[EmployeeDataController::class,'cities']);
-Route::post('/employees',[EmployeeController::class,'store']);
+// Route::post('/employees',[EmployeeController::class,'store']);
+// Route::get('/employees',[EmployeeController::class,'index']);
+// Route::delete('/employees/{employee}',[EmployeeController::class,'destroy']);
+Route::apiResource('employees',EmployeeController::class);
